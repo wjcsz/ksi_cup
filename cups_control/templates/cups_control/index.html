@@ -1,0 +1,11 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% if cups_owners_list %}
+    <ul>{% for cup_owner in cups_owners_list %}
+        <li><a href="{% url 'cups_control:detail' cup_owner.id %}">{{cup_owner}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No users.</p>
+{% endif %}
+{% endblock %}

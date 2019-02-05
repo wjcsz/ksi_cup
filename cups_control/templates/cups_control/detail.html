@@ -1,0 +1,21 @@
+{% extends 'home/base.html' %}
+
+{% load qr_code %}
+
+{% block content %}
+    <div class="container">
+        <p>{{ cup_owner }}</p>
+
+        {% qr_from_text qr_code_url size="t" %}
+    <p><a
+            href="{% url  'cups_control:rebuke' cup_owner.id%}">
+            Wyślij naganę mailową
+        </a></p>
+
+
+        <p><a 
+            href="{% url  'cups_control:clean' cup_owner.id%}">
+            Oznacz kubek jako czysty.
+        </a></p>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% if latest_cups_list %}
+    <p>Lista osób z brudnymi kubkami:</p>
+    <ul>
+    {% for cup_owner in latest_cups_list %}
+        <li><a href="{% url 'cups_control:detail' cup_owner.id %}">{{cup_owner}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No dirty cups lately.</p>
+{% endif %}
+{% endblock %}
