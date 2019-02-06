@@ -15,9 +15,10 @@ class CupOwner(models.Model):
 
 class Cup(models.Model):
     owner = models.ForeignKey(CupOwner, on_delete=models.CASCADE)
-    last_marked = models.DateTimeField('Last rebuke')
+    last_marked = models.DateTimeField('Last rebuke', default=timezone.now() - timezone.timedelta(days=1))
     rebukes_count = models.IntegerField(default=0)
     is_dirty = models.BooleanField(default=False)
+    image = models.ImageField(default='media/photos/ksi-coffee-mug-white.jpg')
 
     def __str__(self):
         return str(self.owner) + '\' ' + 'cup'
@@ -30,24 +31,25 @@ class Cup(models.Model):
         self.save()
 
     def increase_rebuke_count(self):
-        self.rebukes_count += 1
+        self.rebukes_count = self.rebukes_count + 1
         self.last_marked = timezone.now()
         self.save()
 
     def mark_as_dirty(self):
         self.is_dirty = True
-
-    def is_dirty(self):
-        return self.is_dirty
+        self.save()
 
     def can_be_rebuked(self):
         return timezone.now() >= self.last_marked + timezone.timedelta(days=1)
 
+    def add_photo(self, image):
+        self.image = models.ImageField(image)
+        self.save()
 
 class Event(models.Model):
     event_type = models.CharField(max_length=200)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cup_owner')
-    event_performer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_performer")
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cup_owner')
+    # event_performer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_performer")
     event_time = models.TimeField(default=timezone.now)
 
 

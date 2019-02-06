@@ -1,7 +1,6 @@
 from django.core.mail import send_mail
 from cups_control.models import CupOwner, Cup
 
-#facade
 class MailSender():
     def __init__(self, cup_owner):
         self.cup_owner = cup_owner
